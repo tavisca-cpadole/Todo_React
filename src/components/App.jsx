@@ -42,24 +42,31 @@ class App extends Component {
     });
   }
 
+  AddItemToList() {}
+
   render() {
     return (
       <div id="main">
-        {this.state.fName && (
-          <Content
+        <div className="container-fluid">
+          {this.state.fName && (
+            <Content
+              fName={this.state.fName}
+              lName={this.state.lName}
+              id={this.state.id}
+              onUpdateClick={this.onUpdateClick.bind(this)}
+            />
+          )}
+        </div>
+        <nav className="navbar navbar-light bg-light">
+          <NavBar
+            sideList={this.state.sideList}
+            AddItemToList={this.AddItemToList.bind(this)}
+            onNavBarClick={this.onNavBarClick.bind(this)}
             fName={this.state.fName}
             lName={this.state.lName}
             id={this.state.id}
-            onUpdateClick={this.onUpdateClick.bind(this)}
           />
-        )}
-        <NavBar
-          sideList={this.state.sideList}
-          onNavBarClick={this.onNavBarClick.bind(this)}
-          fName={this.state.fName}
-          lName={this.state.lName}
-          id={this.state.id}
-        />
+        </nav>
       </div>
     );
   }

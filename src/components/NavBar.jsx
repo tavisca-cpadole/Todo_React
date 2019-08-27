@@ -20,9 +20,8 @@ class NavBar extends Component {
 
   renderList() {
     if (this.state.sideList.length === 0) return <p>No tags</p>;
-
-    return (
-      <ul>
+    const output = (
+      <ul id="list">
         {this.state.sideList.map((tag, index) => (
           <li
             className={tag.selected === true ? "text-success" : ""}
@@ -37,37 +36,60 @@ class NavBar extends Component {
             {tag.name}
           </li>
         ))}
+        {this.state.Add === 1 ? (
+          <li id="AddItemId">
+            <input
+              type="text"
+              onBlur={() => this.TryToADD()}
+              id="InputId"
+              autocomplete="off"
+              autoFocus
+            />
+          </li>
+        ) : (
+          ""
+        )}
       </ul>
     );
+    return output;
   }
 
-  //   onItemClick = i => {
-  //     let name = this.state.sideList[i].name.split(" ");
+  TryAddItem() {
+    this.setState({
+      Add: 1
+    });
+    this.renderList();
+  }
 
-  //     const updatedList = this.state.sideList.map(user => {
-  //       if (user.name === name[0] + " " + name[1])
-  //         return { name: user.name, selected: true };
-  //       else return { name: user.name, selected: false };
-  //     });
-  //     // this.setState({
-  //     //   sideList: updatedList,
-  //     //   fName: name[0],
-  //     //   lName: name[1],
-  //     //   id: i
-  //     // });
-  //     const data = {
-  //       sideList: updatedList,
-  //       fName: name[0],
-  //       lName: name[1],
-  //       id: i
-  //     };
-  //     this.props.onNavBarClick(data);
-  //   };
-
+  TryToADD() {
+    let item = document.getElementById("InputId").value.trim();
+    //console.log("asdasdasdas");
+    if (item.length > 0) {
+      let objectdata = { name: item, selected: false };
+      let newSideList = this.state.sideList;
+      newSideList.push(objectdata);
+      this.setState({
+        Add: 0,
+        sideList: newSideList
+      });
+      //      console.log(newSideList);
+    } else {
+      this.setState({
+        Add: 0
+      });
+    }
+    this.renderList();
+  }
   render() {
     return (
       <div>
         <h1>Hello World</h1>
+        <button
+          className={"btn btn-success btn-sm"}
+          onClick={() => this.TryAddItem()}
+        >
+          Add Item
+        </button>
         {this.renderList()}
       </div>
     );
